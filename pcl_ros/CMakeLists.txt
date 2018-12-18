@@ -101,7 +101,6 @@ catkin_package(
   DEPENDS
     Boost
     EIGEN3
-    PCL
 )
 
 ## Declare the pcl_ros_tf library
