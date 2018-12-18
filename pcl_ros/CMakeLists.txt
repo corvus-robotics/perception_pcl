@@ -5,7 +5,7 @@ project(pcl_ros)
 find_package(cmake_modules REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system filesystem thread)
 find_package(Eigen3 REQUIRED)
-find_package(PCL REQUIRED COMPONENTS core features filters io segmentation surface)
+find_package(pcl_catkin REQUIRED COMPONENTS core features filters io segmentation surface)
 
 if(NOT "${PCL_LIBRARIES}" STREQUAL "")
   # For debian: https://github.com/ros-perception/perception_pcl/issues/139
@@ -39,6 +39,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_filters
   nodelet
   nodelet_topic_tools
+  pcl_catkin
   pcl_conversions
   pcl_msgs
   pluginlib
@@ -89,6 +90,7 @@ catkin_package(
     message_filters
     nodelet
     nodelet_topic_tools
+    pcl_catkin
     pcl_conversions
     pcl_msgs
     rosbag

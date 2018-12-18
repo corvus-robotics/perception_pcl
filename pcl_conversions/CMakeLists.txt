@@ -3,7 +3,7 @@ project(pcl_conversions)
 
 find_package(catkin REQUIRED COMPONENTS)
 
-find_package(PCL REQUIRED COMPONENTS common io)
+find_package(pcl_catkin REQUIRED COMPONENTS common io)
 find_package(Eigen3 REQUIRED)
 
 # There is a bug in the Ubuntu Artful (17.10) version of the VTK package,
@@ -23,8 +23,8 @@ endif()
 
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS pcl_msgs roscpp sensor_msgs std_msgs
-  DEPENDS EIGEN3 PCL
+  CATKIN_DEPENDS pcl_catkin pcl_msgs roscpp sensor_msgs std_msgs
+  DEPENDS EIGEN3
 )
 
 install(DIRECTORY include/${PROJECT_NAME}/
@@ -32,7 +32,7 @@ install(DIRECTORY include/${PROJECT_NAME}/
 )
 
 if(CATKIN_ENABLE_TESTING)
-  find_package(catkin REQUIRED COMPONENTS roscpp pcl_msgs sensor_msgs std_msgs)
+  find_package(catkin REQUIRED COMPONENTS roscpp pcl_catkin pcl_msgs sensor_msgs std_msgs)
   include_directories(
     include
     ${catkin_INCLUDE_DIRS}
