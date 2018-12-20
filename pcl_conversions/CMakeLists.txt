@@ -40,5 +40,5 @@ if(CATKIN_ENABLE_TESTING)
     ${EIGEN3_INCLUDE_DIRS})
 
   catkin_add_gtest(test_pcl_conversions test/test_pcl_conversions.cpp)
-  target_link_libraries(test_pcl_conversions ${catkin_LIBRARIES})
+  target_link_libraries(test_pcl_conversions ${catkin_LIBRARIES} ${GTEST_LIBRARIES})
 endif()
