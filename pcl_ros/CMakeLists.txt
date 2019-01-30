@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(pcl_ros)
 
+add_definitions(-std=c++14)
+
 ## Find system dependencies
 find_package(cmake_modules REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system filesystem thread)

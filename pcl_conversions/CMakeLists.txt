@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(pcl_conversions)
 
+add_definitions(-std=c++14)
+
 find_package(catkin REQUIRED COMPONENTS)
 
 find_package(pcl_catkin REQUIRED COMPONENTS common io)
