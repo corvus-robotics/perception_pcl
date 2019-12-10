@@ -215,13 +215,13 @@ if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   add_rostest_gtest(test_tf_message_filter_pcl tests/test_tf_message_filter_pcl.launch src/test/test_tf_message_filter_pcl.cpp)
   target_link_libraries(test_tf_message_filter_pcl ${catkin_LIBRARIES} ${GTEST_LIBRARIES})
-  add_rostest(samples/pcl_ros/features/sample_normal_3d.launch ARGS gui:=false)
-  add_rostest(samples/pcl_ros/filters/sample_statistical_outlier_removal.launch ARGS gui:=false)
-  add_rostest(samples/pcl_ros/filters/sample_voxel_grid.launch ARGS gui:=false)
-  add_rostest(samples/pcl_ros/segmentation/sample_extract_clusters.launch ARGS gui:=false)
   
-  # This test is known to be flaky, disabling it for now.
+  # This hz tests are known to be flaky, disabling them for now.
   if (False)
+    add_rostest(samples/pcl_ros/features/sample_normal_3d.launch ARGS gui:=false)
+    add_rostest(samples/pcl_ros/filters/sample_statistical_outlier_removal.launch ARGS gui:=false)
+    add_rostest(samples/pcl_ros/filters/sample_voxel_grid.launch ARGS gui:=false)
+    add_rostest(samples/pcl_ros/segmentation/sample_extract_clusters.launch ARGS gui:=false)
     add_rostest(samples/pcl_ros/surface/sample_convex_hull.launch ARGS gui:=false)
   endif()
 endif(CATKIN_ENABLE_TESTING)
