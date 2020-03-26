@@ -36,7 +36,6 @@
  */
 
 #include <pluginlib/class_list_macros.h>
-#include <pcl/io/io.h>
 #include "pcl_ros/transforms.h"
 #include "pcl_ros/io/concatenate_data.h"
 
@@ -196,7 +195,7 @@ pcl_ros::PointCloudConcatenateDataSynchronizer::subscribe ()
 void
 pcl_ros::PointCloudConcatenateDataSynchronizer::unsubscribe ()
 {
-  for (int d = 0; d < filters_.size (); ++d)
+  for (size_t d = 0; d < filters_.size (); ++d)
   {
     filters_[d]->unsubscribe ();
   }
@@ -212,14 +211,30 @@ pcl_ros::PointCloudConcatenateDataSynchronizer::combineClouds (const PointCloud2
 
   // Transform the point clouds into the specified output frame
   if (output_frame_ != in1.header.frame_id)
-    pcl_ros::transformPointCloud (output_frame_, in1, *in1_t, tf_);
+  {
+    if (!pcl_ros::transformPointCloud (output_frame_, in1, *in1_t, tf_))
+    {
+      NODELET_ERROR ("[%s::combineClouds] Error converting first input dataset from %s to %s.", getName ().c_str (), in1.header.frame_id.c_str (), output_frame_.c_str ());
+      return;
+    }
+  }
   else
+  {
     in1_t = boost::make_shared<PointCloud2> (in1);
+  }
 
   if (output_frame_ != in2.header.frame_id)
-    pcl_ros::transformPointCloud (output_frame_, in2, *in2_t, tf_);
+  {
+    if (!pcl_ros::transformPointCloud (output_frame_, in2, *in2_t, tf_))
+    {
+      NODELET_ERROR ("[%s::combineClouds] Error converting second input dataset from %s to %s.", getName ().c_str (), in2.header.frame_id.c_str (), output_frame_.c_str ());
+      return;
+    }
+  }
   else
+  {
     in2_t = boost::make_shared<PointCloud2> (in2);
+  }
 
   // Concatenate the results
   pcl::concatenatePointCloud (*in1_t, *in2_t, out);
@@ -256,6 +271,10 @@ pcl_ros::PointCloudConcatenateDataSynchronizer::input (
           {
             pcl_ros::PointCloudConcatenateDataSynchronizer::combineClouds (*out1, *in7, *out2);
             out1 = out2;
+            if (in8 && in8->width * in8->height > 0)
+            {
+              pcl_ros::PointCloudConcatenateDataSynchronizer::combineClouds (*out2, *in8, *out1);
+            }
           } 
         }
       }
@@ -265,5 +284,5 @@ pcl_ros::PointCloudConcatenateDataSynchronizer::input (
 }
 
 typedef pcl_ros::PointCloudConcatenateDataSynchronizer PointCloudConcatenateDataSynchronizer;
-PLUGINLIB_EXPORT_CLASS(PointCloudConcatenateDataSynchronizer,nodelet::Nodelet);
+PLUGINLIB_EXPORT_CLASS(PointCloudConcatenateDataSynchronizer,nodelet::Nodelet)
 
